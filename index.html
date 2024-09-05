@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon CV - [Ton Nom]</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .intro-text {
+            max-width: 70%;
+        }
+
+        .intro-text h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+
+        .intro-text p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .letter-body {
+            margin-top: 30px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .signature {
+            margin-top: 50px;
+            font-style: italic;
+        }
+
+        .pdf-viewer {
+            margin-top: 40px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="ton-image.jpg" alt="Photo de Profil" class="profile-pic">
+            <div class="intro-text">
+                <h1>[Ton Nom]</h1>
+                <p>Bonjour, je suis [Ton Nom], un passionné par [insérer domaine]. Cette page présente mon parcours et quelques-uns de mes travaux récents. N'hésitez pas à parcourir mes documents ci-dessous !</p>
+            </div>
+        </div>
+
+        <div class="letter-body">
+            <p>Cher visiteur,</p>
+            <p>Je m'appelle [Ton Nom], et je suis ravi de vous présenter mon parcours à travers ce CV interactif. Ayant toujours été passionné par [insérer domaine], j'ai eu l'opportunité de travailler sur des projets enrichissants, que ce soit dans le domaine du développement logiciel, l'écriture, ou encore dans l'univers fascinant des calculatrices Texas Instruments.</p>
+
+            <p>Vous trouverez ci-dessous mes principaux accomplissements ainsi que plusieurs documents pertinents à mon profil. Vous pouvez également les visualiser directement dans cette page pour plus de commodité.</p>
+
+            <p>Je vous remercie de votre visite et reste à votre disposition pour toute information complémentaire.</p>
+
+            <p class="signature">Cordialement,<br>[Ton Nom]</p>
+        </div>
+
+        <div class="pdf-viewer">
+            <h2>Documents PDF :</h2>
+            <iframe src="document1.pdf"></iframe>
+            <iframe src="document2.pdf"></iframe>
+        </div>
+    </div>
+</body>
+</html>
