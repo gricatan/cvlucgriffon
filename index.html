@@ -7,29 +7,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ══════════════════════════════════════════
-       VARIABLES & RESET
-    ══════════════════════════════════════════ */
     :root {
-      --bg:         #0a0a0f;
-      --bg2:        #0f0f18;
-      --bg3:        #13131f;
-      --surface:    #1a1a28;
-      --border:     #2a2a3d;
-      --accent:     #7c6af7;      /* violet doux */
-      --accent2:    #4ecca3;      /* vert cyan */
-      --accent3:    #f7a26a;      /* orange chaud */
-      --text:       #e8e6f0;
-      --text2:      #9896b0;
-      --text3:      #5c5a70;
-      --mono:       'JetBrains Mono', monospace;
-      --sans:       'Syne', sans-serif;
+      --bg: #0a0a0f;
+      --bg2: #0f0f18;
+      --bg3: #13131f;
+      --surface: #1a1a28;
+      --border: #2a2a3d;
+      --accent: #7c6af7;
+      --accent2: #4ecca3;
+      --accent3: #f7a26a;
+      --text: #e8e6f0;
+      --text2: #9896b0;
+      --text3: #5c5a70;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Syne', sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -37,8 +32,6 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-
-    /* Grain overlay */
     body::before {
       content: '';
       position: fixed;
@@ -48,12 +41,8 @@
       z-index: 9999;
       opacity: 0.4;
     }
-
     a { color: inherit; text-decoration: none; }
 
-    /* ══════════════════════════════════════════
-       NAV
-    ══════════════════════════════════════════ */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -66,20 +55,17 @@
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-
     .nav-logo {
       font-family: var(--mono);
       font-size: 13px;
       color: var(--accent2);
       letter-spacing: 0.1em;
     }
-
     .nav-links {
       display: flex;
       gap: 32px;
       list-style: none;
     }
-
     .nav-links a {
       font-family: var(--mono);
       font-size: 11px;
@@ -88,12 +74,8 @@
       text-transform: uppercase;
       transition: color 0.2s;
     }
-
     .nav-links a:hover { color: var(--accent); }
 
-    /* ══════════════════════════════════════════
-       HERO
-    ══════════════════════════════════════════ */
     .hero {
       min-height: 100vh;
       display: grid;
@@ -104,8 +86,6 @@
       position: relative;
       overflow: hidden;
     }
-
-    /* Grille de fond subtile */
     .hero::before {
       content: '';
       position: absolute;
@@ -117,8 +97,6 @@
       opacity: 0.15;
       mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
     }
-
-    /* Glow accent */
     .hero::after {
       content: '';
       position: absolute;
@@ -127,9 +105,7 @@
       background: radial-gradient(ellipse, rgba(124,106,247,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
-
     .hero-left { position: relative; z-index: 1; }
-
     .hero-tag {
       display: inline-flex;
       align-items: center;
@@ -144,7 +120,6 @@
       border: 1px solid rgba(78,204,163,0.25);
       border-radius: 2px;
     }
-
     .hero-tag::before {
       content: '';
       width: 6px; height: 6px;
@@ -152,12 +127,10 @@
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
-
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
-
     .hero h1 {
       font-size: clamp(42px, 5vw, 72px);
       font-weight: 800;
@@ -165,13 +138,11 @@
       letter-spacing: -0.03em;
       margin-bottom: 8px;
     }
-
     .hero h1 .name-first { color: var(--text); }
-    .hero h1 .name-last  {
+    .hero h1 .name-last {
       color: transparent;
       -webkit-text-stroke: 1px var(--accent);
     }
-
     .hero-sub {
       font-family: var(--mono);
       font-size: 13px;
@@ -179,7 +150,6 @@
       margin-bottom: 28px;
       letter-spacing: 0.05em;
     }
-
     .hero-tagline {
       font-size: 17px;
       color: var(--text2);
@@ -187,18 +157,15 @@
       line-height: 1.7;
       margin-bottom: 40px;
     }
-
     .hero-tagline strong {
       color: var(--text);
       font-weight: 600;
     }
-
     .hero-cta {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
     }
-
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -212,13 +179,11 @@
       border-radius: 3px;
       transition: all 0.2s;
     }
-
     .btn-primary:hover {
       background: #9585f9;
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(124,106,247,0.35);
     }
-
     .btn-ghost {
       display: inline-flex;
       align-items: center;
@@ -232,67 +197,10 @@
       border-radius: 3px;
       transition: all 0.2s;
     }
-
     .btn-ghost:hover {
       border-color: var(--accent2);
       color: var(--accent2);
       transform: translateY(-2px);
-    }
-
-    /* Photo */
-    .hero-right {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: center;
-    }
-
-    .photo-frame {
-      position: relative;
-      width: 300px;
-      height: 300px;
-    }
-
-    .photo-frame::before {
-      content: '';
-      position: absolute;
-      inset: -12px;
-      border: 1px solid var(--accent);
-      border-radius: 4px;
-      opacity: 0.4;
-    }
-
-    .photo-frame::after {
-      content: '';
-      position: absolute;
-      inset: -24px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-    }
-
-    .photo-frame img,
-    .photo-placeholder {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 3px;
-      display: block;
-    }
-
-    .photo-placeholder {
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 8px;
-      border: 1px dashed var(--border);
-    }
-
-    .photo-placeholder span {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text3);
     }
 
     /* Info cards sous photo */
@@ -300,9 +208,8 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 24px;
+      margin-top: 28px;
     }
-
     .info-item {
       display: flex;
       align-items: center;
@@ -311,7 +218,6 @@
       font-size: 11px;
       color: var(--text2);
     }
-
     .info-item .dot {
       width: 4px; height: 4px;
       background: var(--accent2);
@@ -319,15 +225,11 @@
       flex-shrink: 0;
     }
 
-    /* ══════════════════════════════════════════
-       SECTIONS COMMUNES
-    ══════════════════════════════════════════ */
     section {
       padding: 96px 48px;
       max-width: 1200px;
       margin: 0 auto;
     }
-
     .section-label {
       font-family: var(--mono);
       font-size: 11px;
@@ -336,7 +238,6 @@
       text-transform: uppercase;
       margin-bottom: 12px;
     }
-
     .section-title {
       font-size: clamp(28px, 3vw, 42px);
       font-weight: 800;
@@ -344,18 +245,14 @@
       margin-bottom: 48px;
       color: var(--text);
     }
-
     .section-title span { color: var(--accent); }
 
-    /* ══════════════════════════════════════════
-       STACK
-    ══════════════════════════════════════════ */
+    /* STACK */
     .stack-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 12px;
     }
-
     .stack-item {
       padding: 16px;
       background: var(--surface);
@@ -369,7 +266,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .stack-item::before {
       content: '';
       position: absolute;
@@ -379,30 +275,24 @@
       transform: scaleX(0);
       transition: transform 0.2s;
     }
-
     .stack-item:hover {
       border-color: var(--accent);
       color: var(--text);
       transform: translateY(-2px);
     }
-
     .stack-item:hover::before { transform: scaleX(1); }
-
     .stack-item .stack-icon {
       font-size: 24px;
       margin-bottom: 8px;
       display: block;
     }
 
-    /* ══════════════════════════════════════════
-       PROJETS
-    ══════════════════════════════════════════ */
+    /* PROJETS */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
       gap: 20px;
     }
-
     .project-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -412,7 +302,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .project-card::before {
       content: '';
       position: absolute;
@@ -423,36 +312,30 @@
       transform-origin: left;
       transition: transform 0.3s;
     }
-
     .project-card:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(124,106,247,0.15);
     }
-
     .project-card:hover::before { transform: scaleX(1); }
-
     .project-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 12px;
     }
-
     .project-name {
       font-family: var(--mono);
       font-size: 15px;
       font-weight: 700;
       color: var(--text);
     }
-
     .project-badges {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
       margin-bottom: 12px;
     }
-
     .badge {
       font-family: var(--mono);
       font-size: 10px;
@@ -460,32 +343,27 @@
       border-radius: 2px;
       letter-spacing: 0.05em;
     }
-
     .badge-lang {
       background: rgba(124,106,247,0.15);
       color: var(--accent);
       border: 1px solid rgba(124,106,247,0.3);
     }
-
     .badge-status {
       background: rgba(78,204,163,0.12);
       color: var(--accent2);
       border: 1px solid rgba(78,204,163,0.25);
     }
-
     .badge-private {
       background: rgba(247,162,106,0.12);
       color: var(--accent3);
       border: 1px solid rgba(247,162,106,0.25);
     }
-
     .project-desc {
       font-size: 13px;
       color: var(--text2);
       line-height: 1.65;
       margin-bottom: 20px;
     }
-
     .project-stats {
       display: flex;
       gap: 16px;
@@ -495,9 +373,7 @@
       padding-top: 16px;
       border-top: 1px solid var(--border);
     }
-
     .project-stats span { display: flex; align-items: center; gap: 4px; }
-
     .project-link {
       display: inline-flex;
       align-items: center;
@@ -509,12 +385,9 @@
       letter-spacing: 0.08em;
       transition: gap 0.2s;
     }
-
     .project-link:hover { gap: 10px; }
 
-    /* ══════════════════════════════════════════
-       DEVHUB
-    ══════════════════════════════════════════ */
+    /* DEVHUB */
     .devhub-block {
       background: var(--bg3);
       border: 1px solid var(--border);
@@ -525,14 +398,12 @@
       gap: 48px;
       align-items: center;
     }
-
     .devhub-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-top: 24px;
     }
-
     .stat-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -540,7 +411,6 @@
       padding: 20px;
       text-align: center;
     }
-
     .stat-number {
       font-size: 32px;
       font-weight: 800;
@@ -548,7 +418,6 @@
       display: block;
       font-family: var(--mono);
     }
-
     .stat-label {
       font-family: var(--mono);
       font-size: 10px;
@@ -558,14 +427,12 @@
       margin-top: 4px;
       display: block;
     }
-
     .devhub-features {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-
     .devhub-features li {
       display: flex;
       align-items: flex-start;
@@ -573,21 +440,17 @@
       font-size: 14px;
       color: var(--text2);
     }
-
     .devhub-features li .feat-icon {
       font-size: 16px;
       flex-shrink: 0;
       margin-top: 2px;
     }
 
-    /* ══════════════════════════════════════════
-       PARCOURS MENUISERIE
-    ══════════════════════════════════════════ */
+    /* MENUISERIE */
     .timeline {
       position: relative;
       padding-left: 32px;
     }
-
     .timeline::before {
       content: '';
       position: absolute;
@@ -595,12 +458,10 @@
       width: 1px;
       background: linear-gradient(180deg, var(--accent), var(--border));
     }
-
     .timeline-item {
       position: relative;
       margin-bottom: 32px;
     }
-
     .timeline-item::before {
       content: '';
       position: absolute;
@@ -611,7 +472,6 @@
       border: 2px solid var(--bg);
       box-shadow: 0 0 0 2px var(--accent);
     }
-
     .timeline-date {
       font-family: var(--mono);
       font-size: 11px;
@@ -619,29 +479,24 @@
       margin-bottom: 4px;
       letter-spacing: 0.1em;
     }
-
     .timeline-title {
       font-size: 15px;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 2px;
     }
-
     .timeline-company {
       font-family: var(--mono);
       font-size: 12px;
       color: var(--accent);
       margin-bottom: 6px;
     }
-
     .timeline-desc {
       font-size: 13px;
       color: var(--text2);
     }
 
-    /* ══════════════════════════════════════════
-       CONTACT
-    ══════════════════════════════════════════ */
+    /* CONTACT */
     .contact-block {
       background: var(--bg3);
       border: 1px solid var(--border);
@@ -651,7 +506,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .contact-block::before {
       content: '';
       position: absolute;
@@ -661,28 +515,24 @@
       background: radial-gradient(ellipse, rgba(124,106,247,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
-
     .contact-title {
       font-size: 36px;
       font-weight: 800;
       margin-bottom: 12px;
       letter-spacing: -0.03em;
     }
-
     .contact-sub {
       font-size: 15px;
       color: var(--text2);
       max-width: 480px;
       margin: 0 auto 36px;
     }
-
     .contact-links {
       display: flex;
       justify-content: center;
       gap: 16px;
       flex-wrap: wrap;
     }
-
     .contact-item {
       display: flex;
       align-items: center;
@@ -695,16 +545,13 @@
       border-radius: 3px;
       transition: all 0.2s;
     }
-
     .contact-item:hover {
       border-color: var(--accent2);
       color: var(--accent2);
       transform: translateY(-2px);
     }
 
-    /* ══════════════════════════════════════════
-       FOOTER
-    ══════════════════════════════════════════ */
+    /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 48px;
@@ -716,9 +563,7 @@
       color: var(--text3);
     }
 
-    /* ══════════════════════════════════════════
-       DIVIDER
-    ══════════════════════════════════════════ */
+    /* DIVIDER */
     .divider {
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--border), transparent);
@@ -726,48 +571,37 @@
       margin: 0 auto;
     }
 
-    /* ══════════════════════════════════════════
-       ANIMATIONS
-    ══════════════════════════════════════════ */
+    /* ANIMATIONS */
     .fade-in {
       opacity: 0;
       transform: translateY(20px);
       animation: fadeIn 0.6s ease forwards;
     }
-
     @keyframes fadeIn {
       to { opacity: 1; transform: translateY(0); }
     }
-
     .fade-in:nth-child(1) { animation-delay: 0.1s; }
     .fade-in:nth-child(2) { animation-delay: 0.2s; }
     .fade-in:nth-child(3) { animation-delay: 0.3s; }
     .fade-in:nth-child(4) { animation-delay: 0.4s; }
     .fade-in:nth-child(5) { animation-delay: 0.5s; }
 
-    /* ══════════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════════ */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
-
       .hero {
         grid-template-columns: 1fr;
         padding: 100px 20px 60px;
         gap: 48px;
       }
-
       .hero-right { display: none; }
-
       section { padding: 64px 20px; }
-
       .devhub-block {
         grid-template-columns: 1fr;
         padding: 28px;
         gap: 32px;
       }
-
       .contact-block { padding: 40px 20px; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
     }
@@ -781,9 +615,7 @@
 </head>
 <body>
 
-  <!-- ════════════════════════════
-       NAV
-  ════════════════════════════ -->
+  <!-- NAV -->
   <nav>
     <span class="nav-logo">gricatan@github ~ %</span>
     <ul class="nav-links">
@@ -794,9 +626,7 @@
     </ul>
   </nav>
 
-  <!-- ════════════════════════════
-       HERO
-  ════════════════════════════ -->
+  <!-- HERO -->
   <div class="hero">
     <div class="hero-left">
       <div class="hero-tag fade-in">Recherche alternance BTS SIO SLAM · Sept 2026</div>
@@ -821,20 +651,20 @@
       </div>
     </div>
 
+    <!-- HERO-RIGHT : uniquement les infos, sans le cadre photo -->
     <div class="hero-right fade-in">
-      <div>
-        <div class="hero-info" style="margin-top: 28px;">
-          <div class="info-item">
-            <span class="dot"></span>
-            <span>📍 Gleizé, Auvergne-Rhône-Alpes</span>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span>✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c1a6b3a8a7a7aeafadb4a2f681a6aca0a8adefa2aeac">lucgriffon@duck.com</a></span>
-          </div>
-          <div class="info-item">
-            <span class="dot"></span>
-            <span>🎓 BTS SIO SLAM · alternance recherchée</span>
-          </div>
+      <div class="hero-info">
+        <div class="info-item">
+          <span class="dot"></span>
+          <span>📍 Gleizé, Auvergne-Rhône-Alpes</span>
+        </div>
+        <div class="info-item">
+          <span class="dot"></span>
+          <span>✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c1a6b3a8a7a7aeafadb4a2f681a6aca0a8adefa2aeac">lucgriffon@duck.com</a></span>
+        </div>
+        <div class="info-item">
+          <span class="dot"></span>
+          <span>🎓 BTS SIO SLAM · alternance recherchée</span>
         </div>
       </div>
     </div>
@@ -842,9 +672,7 @@
 
   <div class="divider"></div>
 
-  <!-- ════════════════════════════
-       STACK
-  ════════════════════════════ -->
+  <!-- STACK -->
   <section id="stack">
     <p class="section-label">technologies</p>
     <h2 class="section-title">Stack <span>&</span> outils</h2>
@@ -898,15 +726,11 @@
 
   <div class="divider"></div>
 
-  <!-- ════════════════════════════
-       PROJETS
-  ════════════════════════════ -->
+  <!-- PROJETS -->
   <section id="projets">
     <p class="section-label">github.com/gricatan</p>
     <h2 class="section-title">Projets <span>en prod</span></h2>
     <div class="projects-grid">
-
-      <!-- char -->
       <div class="project-card">
         <div class="project-header">
           <span class="project-name">char</span>
@@ -925,8 +749,6 @@
           Voir le repo →
         </a>
       </div>
-
-      <!-- bot_discord_devhub -->
       <div class="project-card">
         <div class="project-header">
           <span class="project-name">bot_discord_devhub</span>
@@ -944,8 +766,6 @@
           Voir le repo →
         </a>
       </div>
-
-      <!-- entretient -->
       <div class="project-card">
         <div class="project-header">
           <span class="project-name">entretien</span>
@@ -962,8 +782,6 @@
           Voir le repo →
         </a>
       </div>
-
-      <!-- kodoku -->
       <div class="project-card">
         <div class="project-header">
           <span class="project-name">kodoku</span>
@@ -978,15 +796,12 @@
           pour des échanges en réseau privé.
         </p>
       </div>
-
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <!-- ════════════════════════════
-       DEVHUB
-  ════════════════════════════ -->
+  <!-- DEVHUB -->
   <section id="devhub">
     <p class="section-label">communauté</p>
     <h2 class="section-title">DevHub <span>Community</span></h2>
@@ -1044,9 +859,7 @@
 
   <div class="divider"></div>
 
-  <!-- ════════════════════════════
-       MENUISERIE
-  ════════════════════════════ -->
+  <!-- MENUISERIE -->
   <section id="menuiserie">
     <p class="section-label">contexte métier</p>
     <h2 class="section-title">Parcours <span>menuiserie</span></h2>
@@ -1057,66 +870,18 @@
       Objectif à terme : des solutions adaptées aux PME du BTP.
     </p>
     <div class="timeline">
-
       <div class="timeline-item">
         <p class="timeline-date">SEPT 2025 → EN COURS</p>
         <p class="timeline-title">BM Menuisier — 1ère année</p>
         <p class="timeline-company">Atelier Michel Liard · Quincieux</p>
         <p class="timeline-desc">Brevet de Maîtrise, niveau III. Menuiserie d'agencement et de bâtiment.</p>
       </div>
-
       <div class="timeline-item">
         <p class="timeline-date">SEPT 2024 → AOÛT 2025</p>
         <p class="timeline-title">Menuisier Apprenti</p>
         <p class="timeline-company">Canet Menuiserie · Misérieux</p>
         <p class="timeline-desc">Dernière année de Bac Pro en apprentissage.</p>
       </div>
-
       <div class="timeline-item">
         <p class="timeline-date">2022 → 2025</p>
-        <p class="timeline-title">Bac Pro TMA — Mention Bien</p>
-        <p class="timeline-company">Lycée Polyvalent George Sand</p>
-        <p class="timeline-desc">
-          Technicien Menuisier Agenceur. Fabrication, pose, agencement (cuisines, escaliers,
-          parquets, menuiseries extérieures). CAP intermédiaire Mention Très Bien.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════════
-       CONTACT
-  ════════════════════════════ -->
-  <section id="contact" style="padding-top: 80px; padding-bottom: 80px;">
-    <div class="contact-block">
-      <h2 class="contact-title">Disponible en alternance</h2>
-      <p class="contact-sub">
-        Recherche une entreprise pour un BTS SIO SLAM en alternance à partir de septembre 2026.
-        Ouvert aux boîtes tech travaillant avec les PME, le BTP, ou le secteur des métiers.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:lucgriffon@duck.com" class="contact-item">
-          ✉ lucgriffon@duck.com
-        </a>
-        <a href="tel:0601205516" class="contact-item">
-          📞 06 01 20 55 16
-        </a>
-        <a href="https://github.com/gricatan" target="_blank" class="contact-item">
-          ⌥ github.com/gricatan
-        </a>
-        <span class="contact-item">
-          📍 Gleizé · Auvergne-Rhône-Alpes
-        </span>
-        <a href="CV_Luc_Griffon.pdf" download class="contact-item" style="border-color: var(--accent); color: var(--accent);">
-          ↓ Télécharger mon CV
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════
-       FOOTER
-  ════════════════
+        <p class="timeline-
