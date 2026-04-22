@@ -3,884 +3,1305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luc GRIFFON — Développeur Python</title>
+  <title>Luc Griffon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..500;1,9..40,300..500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    /* ═══════════════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════════════ */
     :root {
-      --bg: #0a0a0f;
-      --bg2: #0f0f18;
-      --bg3: #13131f;
-      --surface: #1a1a28;
-      --border: #2a2a3d;
-      --accent: #7c6af7;
-      --accent2: #4ecca3;
-      --accent3: #f7a26a;
-      --text: #e8e6f0;
-      --text2: #9896b0;
-      --text3: #5c5a70;
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'Syne', sans-serif;
+      --bg:      #100f0d;
+      --bg1:     #181612;
+      --bg2:     #1f1d19;
+      --text:    #ece8df;
+      --text2:   #7d7870;
+      --text3:   #3e3c38;
+      --rule:    #272420;
+      --orange:  #e05c2a;
+      --orange2: #f07848;
+      --mint:    #00c4a0;
+      --serif:   'Fraunces', Georgia, serif;
+      --sans:    'DM Sans', system-ui, sans-serif;
+      --mono:    'JetBrains Mono', monospace;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.6;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    body::before {
+
+    /* grain */
+    body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 9999;
-      opacity: 0.4;
     }
+
     a { color: inherit; text-decoration: none; }
 
+    /* ═══════════════════════════════════════════
+       ORBE 3D — ambre/terra cotta
+    ═══════════════════════════════════════════ */
+    #orb-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      perspective: 1000px;
+    }
+    #orb {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%,
+        rgba(255, 160, 80, 0.45) 0%,
+        rgba(224, 92, 42, 0.28) 35%,
+        rgba(180, 60, 20, 0.1)  65%,
+        transparent 100%
+      );
+      filter: blur(22px);
+      mix-blend-mode: screen;
+      will-change: transform, filter;
+      top: 0; left: 0;
+    }
+    #orb::before {
+      content: '';
+      position: absolute;
+      inset: 30%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%,
+        rgba(255,220,160,0.7) 0%,
+        rgba(255,140,60,0.4)  40%,
+        transparent 70%
+      );
+      filter: blur(8px);
+    }
+
+    /* ═══════════════════════════════════════════
+       NAV — minimaliste
+    ═══════════════════════════════════════════ */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 48px;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      padding: 20px 52px;
+      background: rgba(16,15,13,0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
     }
-    .nav-logo {
+    .nav-id {
       font-family: var(--mono);
-      font-size: 13px;
-      color: var(--accent2);
-      letter-spacing: 0.1em;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.14em;
+    }
+    .nav-id strong { color: var(--text); font-weight: 500; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 36px;
     }
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 28px;
       list-style: none;
     }
     .nav-links a {
       font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text2);
-      letter-spacing: 0.15em;
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover { color: var(--text2); }
+    .nav-pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border: 1px solid rgba(224,92,42,0.35);
+      padding: 7px 16px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .nav-pdf-btn:hover {
+      background: rgba(224,92,42,0.08);
+      border-color: var(--orange);
+    }
+    .nav-pdf-btn svg { width: 11px; height: 11px; fill: currentColor; }
 
+    /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
     .hero {
       min-height: 100vh;
+      padding: 0 52px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 320px;
       align-items: center;
-      padding: 120px 48px 80px;
-      gap: 64px;
+      gap: 80px;
       position: relative;
-      overflow: hidden;
+      z-index: 1;
     }
+
+    /* grille de fond discrète */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 64px 64px;
-      opacity: 0.15;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 20%; left: 55%;
-      width: 500px; height: 500px;
-      background: radial-gradient(ellipse, rgba(124,106,247,0.12) 0%, transparent 70%);
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.5;
+      mask-image: radial-gradient(ellipse 70% 80% at 30% 50%, black 0%, transparent 80%);
       pointer-events: none;
     }
-    .hero-left { position: relative; z-index: 1; }
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent2);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      padding: 6px 14px;
-      border: 1px solid rgba(78,204,163,0.25);
-      border-radius: 2px;
-    }
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--accent2);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .hero h1 {
-      font-size: clamp(42px, 5vw, 72px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-    }
-    .hero h1 .name-first { color: var(--text); }
-    .hero h1 .name-last {
-      color: transparent;
-      -webkit-text-stroke: 1px var(--accent);
-    }
-    .hero-sub {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 28px;
-      letter-spacing: 0.05em;
-    }
-    .hero-tagline {
-      font-size: 17px;
-      color: var(--text2);
-      max-width: 420px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-    .hero-tagline strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: var(--accent);
-      color: #fff;
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      border-radius: 3px;
-      transition: all 0.2s;
-    }
-    .btn-primary:hover {
-      background: #9585f9;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(124,106,247,0.35);
-    }
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border: 1px solid var(--border);
-      color: var(--text2);
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      border-radius: 3px;
-      transition: all 0.2s;
-    }
-    .btn-ghost:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
-      transform: translateY(-2px);
-    }
 
-    /* Info cards sous photo */
-    .hero-info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 28px;
-    }
-    .info-item {
+    .hero-left { padding-top: 100px; padding-bottom: 80px; }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text2);
     }
-    .info-item .dot {
-      width: 4px; height: 4px;
-      background: var(--accent2);
+    .hero-eyebrow::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--mint);
       border-radius: 50%;
-      flex-shrink: 0;
+      animation: blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
     }
 
-    section {
-      padding: 96px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent2);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(28px, 3vw, 42px);
+    .hero-name {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 72;
       font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 48px;
-      color: var(--text);
-    }
-    .section-title span { color: var(--accent); }
-
-    /* STACK */
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-    }
-    .stack-item {
-      padding: 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      text-align: center;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text2);
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .stack-item::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transition: transform 0.2s;
-    }
-    .stack-item:hover {
-      border-color: var(--accent);
-      color: var(--text);
-      transform: translateY(-2px);
-    }
-    .stack-item:hover::before { transform: scaleX(1); }
-    .stack-item .stack-icon {
-      font-size: 24px;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    /* PROJETS */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 20px;
-    }
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 28px;
-      transition: all 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-    .project-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(124,106,247,0.15);
-    }
-    .project-card:hover::before { transform: scaleX(1); }
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-    }
-    .project-name {
-      font-family: var(--mono);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .project-badges {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-    .badge {
-      font-family: var(--mono);
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 2px;
-      letter-spacing: 0.05em;
-    }
-    .badge-lang {
-      background: rgba(124,106,247,0.15);
-      color: var(--accent);
-      border: 1px solid rgba(124,106,247,0.3);
-    }
-    .badge-status {
-      background: rgba(78,204,163,0.12);
-      color: var(--accent2);
-      border: 1px solid rgba(78,204,163,0.25);
-    }
-    .badge-private {
-      background: rgba(247,162,106,0.12);
-      color: var(--accent3);
-      border: 1px solid rgba(247,162,106,0.25);
-    }
-    .project-desc {
-      font-size: 13px;
-      color: var(--text2);
-      line-height: 1.65;
-      margin-bottom: 20px;
-    }
-    .project-stats {
-      display: flex;
-      gap: 16px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text3);
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-    }
-    .project-stats span { display: flex; align-items: center; gap: 4px; }
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      margin-top: 12px;
-      letter-spacing: 0.08em;
-      transition: gap 0.2s;
-    }
-    .project-link:hover { gap: 10px; }
-
-    /* DEVHUB */
-    .devhub-block {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 40px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-    .devhub-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 24px;
-    }
-    .stat-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 20px;
-      text-align: center;
-    }
-    .stat-number {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--accent);
-      display: block;
-      font-family: var(--mono);
-    }
-    .stat-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--text3);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-top: 4px;
-      display: block;
-    }
-    .devhub-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .devhub-features li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text2);
-    }
-    .devhub-features li .feat-icon {
-      font-size: 16px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    /* MENUISERIE */
-    .timeline {
-      position: relative;
-      padding-left: 32px;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 8px; bottom: 8px;
-      width: 1px;
-      background: linear-gradient(180deg, var(--accent), var(--border));
-    }
-    .timeline-item {
-      position: relative;
+      font-size: clamp(64px, 8vw, 108px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
       margin-bottom: 32px;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -36px; top: 6px;
-      width: 8px; height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 2px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--accent);
-    }
-    .timeline-date {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent2);
-      margin-bottom: 4px;
-      letter-spacing: 0.1em;
-    }
-    .timeline-title {
-      font-size: 15px;
-      font-weight: 700;
       color: var(--text);
-      margin-bottom: 2px;
     }
-    .timeline-company {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-    .timeline-desc {
-      font-size: 13px;
-      color: var(--text2);
+    .hero-name .last {
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--orange);
+      filter: drop-shadow(0 0 20px rgba(224,92,42,0.3));
     }
 
-    /* CONTACT */
-    .contact-block {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 64px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    .hero-role {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+      letter-spacing: 0.06em;
+      margin-bottom: 36px;
+      padding-left: 2px;
     }
-    .contact-block::before {
-      content: '';
-      position: absolute;
-      top: -100px; left: 50%;
-      transform: translateX(-50%);
-      width: 400px; height: 400px;
-      background: radial-gradient(ellipse, rgba(124,106,247,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .contact-title {
-      font-size: 36px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-    }
-    .contact-sub {
+    .hero-role span { color: var(--orange); }
+
+    .hero-pitch {
+      max-width: 480px;
       font-size: 15px;
       color: var(--text2);
-      max-width: 480px;
-      margin: 0 auto 36px;
+      line-height: 1.8;
+      margin-bottom: 52px;
+      border-left: 2px solid var(--rule);
+      padding-left: 20px;
     }
-    .contact-links {
+    .hero-pitch strong { color: var(--text); font-weight: 500; }
+
+    .hero-actions {
       display: flex;
-      justify-content: center;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
     }
-    .contact-item {
-      display: flex;
+
+    /* Boutons — style atelier, pas gradients */
+    .btn {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text2);
-      padding: 10px 20px;
-      border: 1px solid var(--border);
-      border-radius: 3px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 11px 22px;
+      border-radius: 2px;
       transition: all 0.2s;
     }
-    .contact-item:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
+    .btn-fill {
+      background: var(--orange);
+      color: #fff;
+      border: 1px solid var(--orange);
+    }
+    .btn-fill:hover {
+      background: var(--orange2);
+      border-color: var(--orange2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(224,92,42,0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--rule);
+    }
+    .btn-outline:hover {
+      border-color: var(--text3);
+      color: var(--text);
       transform: translateY(-2px);
     }
+    .btn-pdf-hero {
+      background: transparent;
+      color: var(--orange);
+      border: 1px solid rgba(224,92,42,0.3);
+    }
+    .btn-pdf-hero:hover {
+      background: rgba(224,92,42,0.07);
+      border-color: var(--orange);
+      transform: translateY(-2px);
+    }
+    .btn svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
 
-    /* FOOTER */
+    /* Hero right — données brutes sans boîtes */
+    .hero-right {
+      padding-top: 100px;
+      padding-bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-left: 1px solid var(--rule);
+      padding-left: 40px;
+    }
+    .data-row {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .data-row:first-child { border-top: 1px solid var(--rule); }
+    .data-key {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .data-val {
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .data-val a { transition: color 0.2s; }
+    .data-val a:hover { color: var(--orange); }
+
+    /* ═══════════════════════════════════════════
+       LAYOUT SECTIONS
+    ═══════════════════════════════════════════ */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--rule);
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 52px;
+    }
+
+    /* Numéro de section en grand faded */
+    .section-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 144;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-num::before {
+      content: attr(data-n);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 80px;
+      font-weight: 800;
+      color: var(--rule);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .section-num::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .section-headline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 72;
+      font-weight: 700;
+      font-size: clamp(32px, 3.5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 48px;
+    }
+    .section-headline em {
+      color: var(--orange);
+      font-style: inherit;
+    }
+
+    /* ═══════════════════════════════════════════
+       01 — STACK
+    ═══════════════════════════════════════════ */
+    .stack-intro {
+      font-size: 14px;
+      color: var(--text2);
+      font-family: var(--mono);
+      margin-bottom: 36px;
+      padding: 14px 18px;
+      border-left: 2px solid var(--orange);
+      background: rgba(224,92,42,0.04);
+    }
+
+    /* Tags qui coulent comme du texte */
+    .stack-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 6px;
+      margin-bottom: 32px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 1px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .tag-main {
+      background: rgba(224,92,42,0.12);
+      color: var(--orange);
+      border: 1px solid rgba(224,92,42,0.25);
+    }
+    .tag-main:hover {
+      background: rgba(224,92,42,0.2);
+    }
+    .tag-used {
+      background: var(--bg2);
+      color: var(--text2);
+      border: 1px solid var(--rule);
+    }
+    .tag-used:hover {
+      border-color: var(--text3);
+      color: var(--text);
+    }
+    .tag-light {
+      background: transparent;
+      color: var(--text3);
+      border: 1px solid var(--rule);
+    }
+    .tag-light:hover {
+      color: var(--text2);
+      border-color: var(--text3);
+    }
+
+    /* légende */
+    .stack-legend {
+      display: flex;
+      gap: 24px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+    }
+    .stack-legend span { display: flex; align-items: center; gap: 7px; }
+    .leg-dot {
+      width: 8px; height: 8px;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       02 — PROJETS — liste éditoriale
+    ═══════════════════════════════════════════ */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .project-row {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: 24px 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .project-row:first-child { border-top: 1px solid var(--rule); }
+    .project-row:hover { background: rgba(255,255,255,0.012); }
+
+    .proj-index {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--rule);
+      line-height: 1.2;
+      padding-top: 4px;
+      transition: color 0.25s;
+    }
+    .project-row:hover .proj-index { color: var(--orange); }
+
+    .proj-body {}
+    .proj-name {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 17px;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    .proj-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+    .proj-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      padding-top: 6px;
+    }
+    .proj-status {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 1px;
+    }
+    .status-prod {
+      background: rgba(0,196,160,0.1);
+      color: var(--mint);
+      border: 1px solid rgba(0,196,160,0.2);
+    }
+    .status-collab {
+      background: rgba(224,92,42,0.08);
+      color: var(--orange);
+      border: 1px solid rgba(224,92,42,0.18);
+    }
+    .status-internal {
+      background: rgba(255,255,255,0.04);
+      color: var(--text2);
+      border: 1px solid var(--rule);
+    }
+    .proj-link {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .proj-link:hover { color: var(--orange); }
+
+    /* ═══════════════════════════════════════════
+       03 — DEVHUB
+    ═══════════════════════════════════════════ */
+    .devhub-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 72px;
+      align-items: start;
+    }
+    .devhub-text p {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.85;
+      margin-bottom: 28px;
+    }
+    .devhub-text strong { color: var(--text); font-weight: 500; }
+
+    .devhub-feats {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .devhub-feats li {
+      display: flex;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .devhub-feats li:first-child { border-top: 1px solid var(--rule); }
+    .devhub-feats strong { color: var(--text); font-weight: 500; }
+    .feat-n {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      padding-top: 2px;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    /* Stats — typographiques, pas de boîtes */
+    .devhub-stats {
+      position: sticky;
+      top: 100px;
+    }
+    .stat-item {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .stat-item:first-child { border-top: 1px solid var(--rule); }
+    .stat-big {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 72;
+      font-weight: 800;
+      font-size: 52px;
+      line-height: 1;
+      color: var(--orange);
+      letter-spacing: -0.03em;
+      display: block;
+    }
+    .stat-lbl {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════════
+       04 — MENUISERIE
+    ═══════════════════════════════════════════ */
+    .menu-intro {
+      font-size: 15px;
+      color: var(--text2);
+      max-width: 580px;
+      line-height: 1.85;
+      margin-bottom: 52px;
+    }
+    .menu-intro strong { color: var(--text); font-weight: 500; }
+
+    .tl { display: flex; flex-direction: column; gap: 0; }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 40px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .tl-item:first-child { border-top: 1px solid var(--rule); }
+    .tl-left {}
+    .tl-date {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+    .tl-where {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.06em;
+    }
+    .tl-right {}
+    .tl-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .tl-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+
+    /* ═══════════════════════════════════════════
+       05 — CONTACT
+    ═══════════════════════════════════════════ */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-left {}
+    .contact-headline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-variation-settings: 'opsz' 72;
+      font-weight: 700;
+      font-size: 44px;
+      line-height: 1.05;
+      color: var(--text);
+      letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+    .contact-sub {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 340px;
+    }
+    .contact-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--text2);
+      transition: color 0.2s;
+    }
+    .contact-link:first-child { border-top: 1px solid var(--rule); }
+    .contact-link:hover { color: var(--text); }
+    .contact-link:hover .contact-arrow { color: var(--orange); }
+    .contact-label { font-family: var(--mono); font-size: 10px; color: var(--text3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+    .contact-arrow { font-size: 16px; color: var(--text3); transition: color 0.2s; }
+
+    /* right side : PDF large */
+    .contact-right {}
+    .pdf-card {
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: var(--bg1);
+      transition: border-color 0.25s;
+    }
+    .pdf-card:hover { border-color: var(--orange); }
+    .pdf-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+    .pdf-title {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .pdf-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .pdf-filename {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      padding: 8px 12px;
+      background: var(--bg2);
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 48px;
+      border-top: 1px solid var(--rule);
+      padding: 28px 52px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-family: var(--mono);
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text3);
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.1em;
     }
+    footer a { transition: color 0.2s; }
+    footer a:hover { color: var(--orange); }
 
-    /* DIVIDER */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* ANIMATIONS */
-    .fade-in {
+    /* ═══════════════════════════════════════════
+       REVEAL AU SCROLL
+    ═══════════════════════════════════════════ */
+    .r {
       opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 0.6s ease forwards;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    @keyframes fadeIn {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in:nth-child(1) { animation-delay: 0.1s; }
-    .fade-in:nth-child(2) { animation-delay: 0.2s; }
-    .fade-in:nth-child(3) { animation-delay: 0.3s; }
-    .fade-in:nth-child(4) { animation-delay: 0.4s; }
-    .fade-in:nth-child(5) { animation-delay: 0.5s; }
+    .r.in { opacity: 1; transform: none; }
+    .r-d1 { transition-delay: 0.08s; }
+    .r-d2 { transition-delay: 0.16s; }
+    .r-d3 { transition-delay: 0.24s; }
+    .r-d4 { transition-delay: 0.32s; }
+    .r-d5 { transition-delay: 0.40s; }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
+    /* hero animé immédiatement */
+    .hero-eyebrow, .hero-name, .hero-role, .hero-pitch, .hero-actions, .hero-right {
+      opacity: 0;
+      animation: drop 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero-name      { animation-delay: 0.10s; }
+    .hero-role      { animation-delay: 0.22s; }
+    .hero-pitch     { animation-delay: 0.32s; }
+    .hero-actions   { animation-delay: 0.42s; }
+    .hero-right     { animation-delay: 0.52s; }
+    @keyframes drop {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
       .nav-links { display: none; }
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 100px 20px 60px;
-        gap: 48px;
-      }
-      .hero-right { display: none; }
-      section { padding: 64px 20px; }
-      .devhub-block {
-        grid-template-columns: 1fr;
-        padding: 28px;
-        gap: 32px;
-      }
-      .contact-block { padding: 40px 20px; }
-      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .hero { grid-template-columns: 1fr; padding: 0 24px; gap: 48px; }
+      .hero-right { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 32px; }
+      .section-inner { padding: 64px 24px; }
+      .devhub-layout, .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+      .devhub-stats { position: static; }
+      .tl-item { grid-template-columns: 1fr; gap: 8px; }
+      footer { flex-direction: column; gap: 10px; }
+      .project-row { grid-template-columns: 36px 1fr; }
+      .proj-meta { display: none; }
     }
 
-    /* Scrollbar custom */
-    ::-webkit-scrollbar { width: 6px; }
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    ::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <span class="nav-logo">gricatan@github ~ %</span>
-    <ul class="nav-links">
-      <li><a href="#projets">projets</a></li>
-      <li><a href="#devhub">devhub</a></li>
-      <li><a href="#menuiserie">menuiserie</a></li>
-      <li><a href="#contact">contact</a></li>
-    </ul>
-  </nav>
+<!-- ORBE -->
+<div id="orb-wrap"><div id="orb"></div></div>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-left">
-      <div class="hero-tag fade-in">Recherche alternance BTS SIO SLAM · Sept 2026</div>
-      <h1 class="fade-in">
-        <span class="name-first">Luc </span><br>
-        <span class="name-last">GRIFFON</span>
-      </h1>
-      <p class="hero-sub fade-in">// Développeur Python · Fondateur DevHub</p>
-      <p class="hero-tagline fade-in">
-        <strong>Autodidacte. Projets en prod. Double culture.</strong><br>
-        Dev Python avec des projets qui tournent — bots Discord, serveur de jeu multijoueur,
-        app sur VPS perso. Menuisier BM en parallèle, pour comprendre les métiers
-        que je veux outiller.
-      </p>
-      <div class="hero-cta fade-in">
-        <a href="https://github.com/gricatan" class="btn-primary" target="_blank">
-          ⌥ GitHub
-        </a>
-        <a href="/cdn-cgi/l/email-protection#0f687d6669696061637a6c384f68626e6663216c6062" class="btn-ghost">
-          ✉ Contact
-        </a>
-      </div>
+<!-- NAV -->
+<nav>
+  <span class="nav-id"><strong>Luc Griffon</strong> — Dev Python &amp; Menuisier BM</span>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#devhub">DevHub</a></li>
+      <li><a href="#menuiserie">Parcours</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="CV_Luc_Griffon.pdf" class="nav-pdf-btn" download target="_blank">
+      <svg viewBox="0 0 16 16"><path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/></svg>
+      CV PDF
+    </a>
+  </div>
+</nav>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Alternance BTS SIO SLAM · Septembre 2026</p>
+    <h1 class="hero-name">
+      Luc<br>
+      <span class="last">Griffon</span>
+    </h1>
+    <p class="hero-role">Développeur Python <span>/</span> Fondateur DevHub <span>/</span> Menuisier BM</p>
+    <p class="hero-pitch">
+      <strong>Autodidacte. Projets en prod. Double culture.</strong><br>
+      Bots Discord actifs, serveur de jeu multijoueur, app déployée sur VPS perso.
+      En parallèle, Brevet de Maîtrise en menuiserie — pour comprendre les métiers
+      que je veux outiller, de l'intérieur.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/gricatan" class="btn btn-fill" target="_blank">GitHub</a>
+      <a href="mailto:lucgriffon@duck.com" class="btn btn-outline">Écrire</a>
+      <a href="CV_Luc_Griffon.pdf" class="btn btn-pdf-hero" download target="_blank">
+        <svg viewBox="0 0 16 16"><path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/></svg>
+        Télécharger le CV
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="data-row">
+      <p class="data-key">Localisation</p>
+      <p class="data-val">Gleizé, Auvergne-Rhône-Alpes</p>
+    </div>
+    <div class="data-row">
+      <p class="data-key">Email</p>
+      <p class="data-val"><a href="mailto:lucgriffon@duck.com">lucgriffon@duck.com</a></p>
+    </div>
+    <div class="data-row">
+      <p class="data-key">Formation visée</p>
+      <p class="data-val">BTS SIO SLAM — alternance sept. 2026</p>
+    </div>
+    <div class="data-row">
+      <p class="data-key">Poste actuel</p>
+      <p class="data-val">BM Menuisier — Atelier Michel Liard</p>
+    </div>
+    <div class="data-row">
+      <p class="data-key">Communauté</p>
+      <p class="data-val">DevHub Discord (~240 membres)</p>
+    </div>
+    <div class="data-row">
+      <p class="data-key">GitHub</p>
+      <p class="data-val"><a href="https://github.com/gricatan" target="_blank">github.com/gricatan</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ 01 STACK ══════════════════════ -->
+<div class="section-wrap" id="stack">
+  <div class="section-inner">
+    <p class="section-num r" data-n="01">Stack &amp; outils</p>
+    <h2 class="section-headline r r-d1">Ce que j'utilise,<br><em>ce que je maîtrise.</em></h2>
+
+    <p class="stack-intro r r-d2">→ Construite par la pratique sur des projets réels. Niveau débutant avancé — pas de stack apprise dans le vide.</p>
+
+    <div class="stack-flow r r-d3">
+      <span class="tag tag-main">Python</span>
+      <span class="tag tag-used">FastAPI</span>
+      <span class="tag tag-used">discord.py</span>
+      <span class="tag tag-used">Mistral API</span>
+      <span class="tag tag-used">Git</span>
+      <span class="tag tag-used">GitHub</span>
+      <span class="tag tag-used">Nginx</span>
+      <span class="tag tag-used">VPS Linux</span>
+      <span class="tag tag-used">HTML</span>
+      <span class="tag tag-used">CSS</span>
+      <span class="tag tag-light">C</span>
+      <span class="tag tag-light">C++</span>
+      <span class="tag tag-light">SQL (bases)</span>
     </div>
 
-    <!-- HERO-RIGHT : uniquement les infos, sans le cadre photo -->
-    <div class="hero-right fade-in">
-      <div class="hero-info">
-        <div class="info-item">
-          <span class="dot"></span>
-          <span>📍 Gleizé, Auvergne-Rhône-Alpes</span>
+    <div class="stack-legend r r-d4">
+      <span>
+        <span class="leg-dot" style="background:rgba(224,92,42,0.5); border:1px solid rgba(224,92,42,0.4);"></span>
+        Principal
+      </span>
+      <span>
+        <span class="leg-dot" style="background:var(--bg2); border:1px solid var(--rule);"></span>
+        Utilisé en projet
+      </span>
+      <span>
+        <span class="leg-dot" style="background:transparent; border:1px solid var(--rule);"></span>
+        Notions
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ 02 PROJETS ══════════════════════ -->
+<div class="section-wrap" id="projets">
+  <div class="section-inner">
+    <p class="section-num r" data-n="02">Projets</p>
+    <h2 class="section-headline r r-d1">Du code <em>en production</em>,<br>pas des exercices.</h2>
+
+    <div class="projects-list">
+
+      <div class="project-row r r-d2">
+        <span class="proj-index">01</span>
+        <div class="proj-body">
+          <p class="proj-name">char</p>
+          <div class="proj-tags">
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">Python</span>
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">FastAPI</span>
+          </div>
+          <p class="proj-desc">
+            Serveur de jeu multijoueur temps réel. Utilisé en production lors des
+            Battle Arena de DevHub — compétitions de code en live avec 240 membres.
+          </p>
         </div>
-        <div class="info-item">
-          <span class="dot"></span>
-          <span>✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c1a6b3a8a7a7aeafadb4a2f681a6aca0a8adefa2aeac">lucgriffon@duck.com</a></span>
+        <div class="proj-meta">
+          <span class="proj-status status-prod">En prod</span>
+          <a href="https://github.com/gricatan/char" class="proj-link" target="_blank">github →</a>
         </div>
-        <div class="info-item">
-          <span class="dot"></span>
-          <span>🎓 BTS SIO SLAM · alternance recherchée</span>
+      </div>
+
+      <div class="project-row r r-d3">
+        <span class="proj-index">02</span>
+        <div class="proj-body">
+          <p class="proj-name">bot_discord_devhub</p>
+          <div class="proj-tags">
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">Python</span>
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">discord.py</span>
+          </div>
+          <p class="proj-desc">
+            Bot Discord en production sur DevHub (~240 membres). Gestion des rôles,
+            animations d'événements, commandes custom.
+          </p>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-status status-prod">En prod</span>
+          <a href="https://github.com/gricatan/bot_discord_devhub" class="proj-link" target="_blank">github →</a>
+        </div>
+      </div>
+
+      <div class="project-row r r-d4">
+        <span class="proj-index">03</span>
+        <div class="proj-body">
+          <p class="proj-name">entretien</p>
+          <div class="proj-tags">
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">Python</span>
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">Mistral API</span>
+          </div>
+          <p class="proj-desc">
+            Transcription audio temps réel + conseils IA pendant une visio.
+            Projet collaboratif.
+          </p>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-status status-collab">Collaboratif</span>
+          <a href="https://github.com/gricatan/entretient" class="proj-link" target="_blank">github →</a>
+        </div>
+      </div>
+
+      <div class="project-row r r-d5">
+        <span class="proj-index">04</span>
+        <div class="proj-body">
+          <p class="proj-name">kodoku</p>
+          <div class="proj-tags">
+            <span class="tag tag-used" style="font-size:10px; padding:3px 9px;">Python</span>
+          </div>
+          <p class="proj-desc">
+            Outil de transfert de gros fichiers pour équipe dev/graphistes.
+            Interface web légère, déployable localement — alternative à WeTransfer
+            pour échanges en réseau privé.
+          </p>
+        </div>
+        <div class="proj-meta">
+          <span class="proj-status status-internal">Interne</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ 03 DEVHUB ══════════════════════ -->
+<div class="section-wrap" id="devhub">
+  <div class="section-inner">
+    <p class="section-num r" data-n="03">DevHub Community</p>
+    <h2 class="section-headline r r-d1">Fondé. Administré.<br><em>En croissance.</em></h2>
+
+    <div class="devhub-layout">
+      <div class="devhub-text">
+        <p class="r r-d2">
+          Serveur Discord français centré sur le développement — créé et piloté depuis le début.
+          <strong>Pas un projet scolaire : une vraie communauté active</strong>, avec ses propres outils,
+          ses événements réguliers et sa charte d'utilisation de l'IA.
+        </p>
+        <ul class="devhub-feats r r-d3">
+          <li>
+            <span class="feat-n">→</span>
+            <span><strong>Battle Arena</strong> — compétitions de code en live, serveur de jeu custom déployé en production</span>
+          </li>
+          <li>
+            <span class="feat-n">→</span>
+            <span><strong>Bot custom</strong> en prod — gestion des rôles, animations, commandes discord.py</span>
+          </li>
+          <li>
+            <span class="feat-n">→</span>
+            <span><strong>Charte IA interne</strong> — politique propre sur l'usage des outils IA par les membres</span>
+          </li>
+          <li>
+            <span class="feat-n">→</span>
+            <span><strong>Site web dédié</strong> — vitrine et onboarding des nouveaux membres</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="devhub-stats r r-d2">
+        <div class="stat-item">
+          <span class="stat-big">240</span>
+          <span class="stat-lbl">Membres actifs</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-big">3+</span>
+          <span class="stat-lbl">Ans en activité</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-big">3</span>
+          <span class="stat-lbl">Battle Arena organisées</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-big">1</span>
+          <span class="stat-lbl">Fondateur</span>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="divider"></div>
+<!-- ══════════════════════ 04 MENUISERIE ══════════════════════ -->
+<div class="section-wrap" id="menuiserie">
+  <div class="section-inner">
+    <p class="section-num r" data-n="04">Parcours</p>
+    <h2 class="section-headline r r-d1">Le choix du <em>terrain</em><br>avant les outils.</h2>
 
-  <!-- STACK -->
-  <section id="stack">
-    <p class="section-label">technologies</p>
-    <h2 class="section-title">Stack <span>&</span> outils</h2>
-    <p style="font-size:13px; color:var(--text2); font-family:var(--mono); margin-bottom:28px; padding:12px 16px; border:1px solid var(--border); border-radius:4px; border-left:3px solid var(--accent2);">
-      → Stack construite par la pratique, sur des projets réels. Niveau débutant avancer
-    </p>
-    <div class="stack-grid">
-      <div class="stack-item">
-        <span class="stack-icon">🐍</span>
-        Python
-        <div style="font-size:10px; color:var(--accent2); margin-top:4px;">principal</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">⚡</span>
-        FastAPI
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">utilisé sur char</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🤖</span>
-        discord.py
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">en prod</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🧠</span>
-        Mistral API
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">LLM intégration</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🌐</span>
-        Nginx
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">config basique</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🔀</span>
-        Git / GitHub
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">usage quotidien</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🌍</span>
-        HTML / CSS
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">bases</div>
-      </div>
-      <div class="stack-item">
-        <span class="stack-icon">🔷</span>
-        C / C++
-        <div style="font-size:10px; color:var(--text3); margin-top:4px;">notions</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- PROJETS -->
-  <section id="projets">
-    <p class="section-label">github.com/gricatan</p>
-    <h2 class="section-title">Projets <span>en prod</span></h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-header">
-          <span class="project-name">char</span>
-        </div>
-        <div class="project-badges">
-          <span class="badge badge-lang">Python</span>
-          <span class="badge badge-lang">FastAPI</span>
-          <span class="badge badge-status">En prod</span>
-        </div>
-        <p class="project-desc">
-          Serveur de jeu multijoueur temps réel construit avec FastAPI.
-          Utilisé en production lors des Battle Arena de DevHub — compétitions
-          de code en direct avec 200+ membres.
-        </p>
-        <a href="https://github.com/gricatan/char" target="_blank" class="project-link">
-          Voir le repo →
-        </a>
-      </div>
-      <div class="project-card">
-        <div class="project-header">
-          <span class="project-name">bot_discord_devhub</span>
-        </div>
-        <div class="project-badges">
-          <span class="badge badge-lang">Python</span>
-          <span class="badge badge-lang">discord.py</span>
-          <span class="badge badge-status">En prod</span>
-        </div>
-        <p class="project-desc">
-          Bot Discord en production sur le serveur DevHub Community (~210 membres).
-          Gestion des rôles, animations d'événements, commandes custom.
-        </p>
-        <a href="https://github.com/gricatan/bot_discord_devhub" target="_blank" class="project-link">
-          Voir le repo →
-        </a>
-      </div>
-      <div class="project-card">
-        <div class="project-header">
-          <span class="project-name">entretien</span>
-        </div>
-        <div class="project-badges">
-          <span class="badge badge-lang">Python</span>
-          <span class="badge badge-lang">Mistral API</span>
-          <span class="badge badge-status">Collaboratif</span>
-        </div>
-        <p class="project-desc">
-          transcription audio temps réel + conseils IA pendant une visio
-        </p>
-        <a href="https://github.com/gricatan/entretient" target="_blank" class="project-link">
-          Voir le repo →
-        </a>
-      </div>
-      <div class="project-card">
-        <div class="project-header">
-          <span class="project-name">kodoku</span>
-        </div>
-        <div class="project-badges">
-          <span class="badge badge-lang">Python</span>
-          <span class="badge badge-private">Usage interne</span>
-        </div>
-        <p class="project-desc">
-          Outil de transfert de gros fichiers pensé pour une équipe dev/graphistes.
-          Interface web légère déployable localement — alternative simple à WeTransfer
-          pour des échanges en réseau privé.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- DEVHUB -->
-  <section id="devhub">
-    <p class="section-label">communauté</p>
-    <h2 class="section-title">DevHub <span>Community</span></h2>
-    <div class="devhub-block">
-      <div>
-        <p style="font-size: 15px; color: var(--text2); line-height: 1.75; margin-bottom: 24px;">
-          Serveur Discord français dédié au développement — fondé et administré depuis sa création.
-          Espace d'entraide, de projets collectifs et de compétitions de code.
-        </p>
-        <ul class="devhub-features">
-          <li>
-            <span class="feat-icon">⚔️</span>
-            <div><strong>Battle Arena</strong> — compétitions de code en live, bot de jeu custom</div>
-          </li>
-          <li>
-            <span class="feat-icon">🛠️</span>
-            <div><strong>DevJams</strong> — sessions de développement collaboratif</div>
-          </li>
-          <li>
-            <span class="feat-icon">🤖</span>
-            <div><strong>Bot custom</strong> en prod avec discord.py — gestion des rôles et événements</div>
-          </li>
-          <li>
-            <span class="feat-icon">📜</span>
-            <div><strong>Charte IA</strong> — politique interne sur l'utilisation des outils IA</div>
-          </li>
-          <li>
-            <span class="feat-icon">🌐</span>
-            <div><strong>Site web</strong> dédié — vitrine et onboarding des membres</div>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <div class="devhub-stats">
-          <div class="stat-box">
-            <span class="stat-number">210</span>
-            <span class="stat-label">membres</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-number">3+</span>
-            <span class="stat-label">ans actif</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-number">∞</span>
-            <span class="stat-label">Battle Arena</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-number">1</span>
-            <span class="stat-label">fondateur</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- MENUISERIE -->
-  <section id="menuiserie">
-    <p class="section-label">contexte métier</p>
-    <h2 class="section-title">Parcours <span>menuiserie</span></h2>
-    <p style="font-size: 15px; color: var(--text2); max-width: 640px; margin-bottom: 48px; line-height: 1.75;">
-      La menuiserie, c'est un choix — pas un détour. Comprendre un secteur de l'intérieur
-      avant de développer des outils pour lui, c'est la différence entre un logiciel
-      qui colle aux usages et un logiciel que personne n'utilise.
+    <p class="menu-intro r r-d2">
+      La menuiserie, c'est un choix — pas un détour.
+      <strong>Comprendre un secteur de l'intérieur avant de développer des outils pour lui</strong>,
+      c'est la différence entre un logiciel qui colle aux usages et un logiciel que personne n'utilise.
       Objectif à terme : des solutions adaptées aux PME du BTP.
     </p>
-    <div class="timeline">
-      <div class="timeline-item">
-        <p class="timeline-date">SEPT 2025 → EN COURS</p>
-        <p class="timeline-title">BM Menuisier — 1ère année</p>
-        <p class="timeline-company">Atelier Michel Liard · Quincieux</p>
-        <p class="timeline-desc">Brevet de Maîtrise, niveau III. Menuiserie d'agencement et de bâtiment.</p>
+
+    <div class="tl">
+      <div class="tl-item r r-d2">
+        <div class="tl-left">
+          <p class="tl-date">SEPT 2025 → EN COURS</p>
+          <p class="tl-where">Atelier Michel Liard · Quincieux</p>
+        </div>
+        <div class="tl-right">
+          <p class="tl-title">BM Menuisier — 1ère année</p>
+          <p class="tl-desc">Brevet de Maîtrise, niveau III. Menuiserie d'agencement et de bâtiment.</p>
+        </div>
       </div>
-      <div class="timeline-item">
-        <p class="timeline-date">SEPT 2024 → AOÛT 2025</p>
-        <p class="timeline-title">Menuisier Apprenti</p>
-        <p class="timeline-company">Canet Menuiserie · Misérieux</p>
-        <p class="timeline-desc">Dernière année de Bac Pro en apprentissage.</p>
+      <div class="tl-item r r-d3">
+        <div class="tl-left">
+          <p class="tl-date">SEPT 2024 → AOÛT 2025</p>
+          <p class="tl-where">Canet Menuiserie · Misérieux</p>
+        </div>
+        <div class="tl-right">
+          <p class="tl-title">Menuisier Apprenti</p>
+          <p class="tl-desc">Dernière année de Bac Pro en apprentissage.</p>
+        </div>
       </div>
-      <div class="timeline-item">
-        <p class="timeline-date">2022 → 2025</p>
-        <p class="timeline-
+      <div class="tl-item r r-d4">
+        <div class="tl-left">
+          <p class="tl-date">2022 → 2025</p>
+          <p class="tl-where">Lycée professionnel · Neuville-sur-Saône</p>
+        </div>
+        <div class="tl-right">
+          <p class="tl-title">Bac Pro Menuisier — Mention Bien</p>
+          <p class="tl-desc">Menuiserie aluminium, bois et PVC. Formation en apprentissage les deux dernières années.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ 05 CONTACT ══════════════════════ -->
+<div class="section-wrap" id="contact">
+  <div class="section-inner">
+    <p class="section-num r" data-n="05">Contact</p>
+
+    <div class="contact-layout">
+      <div class="contact-left">
+        <h2 class="contact-headline r r-d1">Parlons-en.</h2>
+        <p class="contact-sub r r-d2">
+          Recruteur, alternance BTS SIO SLAM, collaboration tech,
+          ou échange sur le BTP — je réponds rapidement.
+        </p>
+        <div class="contact-links-col r r-d3">
+          <a href="mailto:lucgriffon@duck.com" class="contact-link">
+            <div>
+              <p class="contact-label">Email</p>
+              <p>lucgriffon@duck.com</p>
+            </div>
+            <span class="contact-arrow">→</span>
+          </a>
+          <a href="https://github.com/gricatan" target="_blank" class="contact-link">
+            <div>
+              <p class="contact-label">GitHub</p>
+              <p>github.com/gricatan</p>
+            </div>
+            <span class="contact-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-right r r-d2">
+        <a href="CV_Luc_Griffon.pdf" class="pdf-card" download target="_blank">
+          <span class="pdf-icon">📄</span>
+          <p class="pdf-title">Télécharger le CV</p>
+          <p class="pdf-desc">Version PDF complète, prête pour impression ou transmission à un recruteur.</p>
+          <span class="pdf-filename">CV_Luc_Griffon.pdf</span>
+          <span class="btn btn-fill" style="width:fit-content; margin-top:4px;">
+            <svg viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+            Télécharger
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>Luc Griffon · 2026</span>
+  <span>Python &amp; bois</span>
+  <a href="CV_Luc_Griffon.pdf" download>CV_Luc_Griffon.pdf ↓</a>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   ORBE 3D — trajectoire axée sur le scroll
+   L'orbe longe la page en simulant une lumière
+   qui se déplace sur un axe profond (rotX/Y).
+═══════════════════════════════════════════════════ */
+(function () {
+  const orb = document.getElementById('orb');
+  const W = () => window.innerWidth;
+  const H = () => window.innerHeight;
+
+  // Points de passage : [xVw%, yVh%-relatif-au-scroll, rotX, rotY, scale]
+  const pts = [
+    { x: 68, y:  8,  rx:  0,  ry:  0,  s: 1.0 },   // hero haut droite
+    { x: 18, y: 22,  rx: 14,  ry:-22,  s: 1.2 },   // stack gauche
+    { x: 74, y: 38,  rx:-12,  ry: 20,  s: 0.85},   // projets droite
+    { x: 12, y: 55,  rx: 20,  ry:-16,  s: 1.15},   // devhub gauche
+    { x: 72, y: 70,  rx:-16,  ry: 24,  s: 0.9 },   // menuiserie droite
+    { x: 50, y: 88,  rx:  0,  ry:  0,  s: 1.3 },   // contact centre
+  ];
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+
+  function getState(p) {
+    const n = pts.length - 1;
+    const scaled = p * n;
+    const i = Math.min(Math.floor(scaled), n - 1);
+    const t = smooth(scaled - i);
+    const a = pts[i], b = pts[i + 1];
+    return {
+      x:  lerp(a.x,  b.x,  t),
+      y:  lerp(a.y,  b.y,  t),
+      rx: lerp(a.rx, b.rx, t),
+      ry: lerp(a.ry, b.ry, t),
+      s:  lerp(a.s,  b.s,  t),
+    };
+  }
+
+  let mouseX = 0, mouseY = 0;
+  let targetMouseX = 0, targetMouseY = 0;
+  let rafId;
+
+  document.addEventListener('mousemove', e => {
+    targetMouseX = (e.clientX / W() - 0.5) * 44;
+    targetMouseY = (e.clientY / H() - 0.5) * 32;
+  });
+
+  const HALF = 190; // demi-taille orbe (380/2)
+
+  function frame() {
+    // Smooth mouse follow
+    mouseX += (targetMouseX - mouseX) * 0.07;
+    mouseY += (targetMouseY - mouseY) * 0.07;
+
+    const scrollY = window.scrollY;
+    const docH = document.documentElement.scrollHeight - H();
+    const progress = Math.min(scrollY / Math.max(docH, 1), 1);
+    const s = getState(progress);
+
+    const px = (s.x / 100) * W() - HALF + mouseX * 0.45;
+    const py = (s.y / 100) * H() - HALF + scrollY + mouseY * 0.3;
+
+    orb.style.transform = [
+      `translate3d(${px}px, ${py}px, 0)`,
+      `rotateX(${s.rx}deg)`,
+      `rotateY(${s.ry}deg)`,
+      `scale(${s.s})`,
+    ].join(' ');
+
+    rafId = requestAnimationFrame(frame);
+  }
+
+  frame();
+
+  /* ═════════════════════════════════════════
+     SCROLL REVEAL — IntersectionObserver
+  ═════════════════════════════════════════ */
+  const revealEls = document.querySelectorAll('.r');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  /* ═════════════════════════════════════════
+     NAV — section active
+  ═════════════════════════════════════════ */
+  const sections = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  const secIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(a => {
+          const active = a.getAttribute('href') === '#' + e.target.id;
+          a.style.color = active ? 'var(--text2)' : '';
+        });
+      }
+    });
+  }, { threshold: 0.45 });
+  sections.forEach(s => secIO.observe(s));
+})();
+</script>
+</body>
+</html>
