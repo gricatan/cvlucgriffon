@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>CV — Luc Griffon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1b1b1a;
+    --mut:#6c6a66;
+    --soft:#9a9893;
+    --rule:#dcdad5;
+    --accent:#b0472a;
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Inter',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  @page{ size:A4; margin:0; }
+  html,body{ background:#fff; }
+  body{ font-family:var(--sans); color:var(--ink); font-size:10px; line-height:1.45;
+        -webkit-font-smoothing:antialiased; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  a{ color:inherit; text-decoration:none; }
+
+  .page{ width:210mm; min-height:297mm; padding:12mm 14mm 10mm; margin:0 auto; background:#fff;
+         display:flex; flex-direction:column; }
+
+  /* ── En-tête ── */
+  .head{ border-bottom:2px solid var(--ink); padding-bottom:9px; margin-bottom:12px; }
+  .eyebrow{ font-size:8.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:7px; }
+  .name{ font-family:var(--serif); font-weight:600; font-size:33px; line-height:1; letter-spacing:-.01em; }
+  .role{ margin-top:5px; font-size:11px; color:var(--mut); font-weight:500; }
+
+  /* ── Corps 2 colonnes ── */
+  .body{ display:grid; grid-template-columns:56mm 1fr; gap:0 11mm; flex:1; }
+  .col-left{ border-right:1px solid var(--rule); padding-right:10mm; }
+  .col-right{ min-width:0; }
+
+  .sec{ margin-bottom:11px; }
+  .sec-t{ font-size:9px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--ink);
+          padding-bottom:3px; margin-bottom:7px; border-bottom:1px solid var(--rule);
+          display:flex; align-items:baseline; gap:7px; }
+  .sec-t .n{ font-family:var(--serif); font-weight:600; color:var(--accent); font-size:11px; }
+
+  .kv{ display:block; margin-bottom:6px; color:inherit; }
+  .kv .k{ display:block; font-size:7.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--soft); margin-bottom:1px; }
+  .kv .v{ display:block; font-size:9.5px; word-break:break-word; }
+  a.kv .v{ color:var(--ink); }
+
+  .stack-grp{ margin-bottom:7px; }
+  .stack-grp .lab{ font-size:7.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--soft); margin-bottom:3px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:4px; }
+  .chip{ font-size:8.5px; border:1px solid var(--rule); border-radius:2px; padding:2px 6px; background:#faf9f7; }
+  .chip.main{ border-color:var(--accent); color:var(--accent); }
+
+  .profil{ font-size:10px; line-height:1.55; color:#2c2b29; }
+  .profil strong{ font-weight:600; color:var(--ink); }
+
+  /* intro d'une section projet */
+  .lead{ font-size:9.5px; color:#2c2b29; line-height:1.5; margin-bottom:6px; }
+  .lead strong{ color:var(--ink); font-weight:600; }
+
+  /* lignes de projets / sous-preuves */
+  .ln{ display:grid; grid-template-columns:1fr auto; gap:4px 10px; align-items:baseline; padding:4px 0; }
+  .ln + .ln{ border-top:1px solid var(--rule); }
+  .ln .t{ font-size:9.5px; color:#3a3936; line-height:1.4; }
+  .ln .t b{ font-weight:600; color:var(--ink); }
+  .ln .t .rl{ color:var(--mut); }
+  .ln .lnk{ font-size:7.5px; color:var(--accent); white-space:nowrap; }
+  .ln .lnk::after{ content:' ↗'; }
+  .old{ font-size:8.5px; color:var(--soft); margin-top:5px; }
+  .old b{ color:var(--mut); font-weight:600; }
+
+  /* timeline */
+  .tl-row{ display:grid; grid-template-columns:33mm 1fr; gap:6mm; padding:4px 0; }
+  .tl-row + .tl-row{ border-top:1px solid var(--rule); }
+  .tl-when{ font-size:8px; letter-spacing:.04em; color:var(--mut); text-transform:uppercase; padding-top:1px; }
+  .tl-what .t{ font-size:10px; font-weight:600; }
+  .tl-what .w{ font-size:8.5px; color:var(--mut); }
+  .tl-what .t .mb{ color:var(--accent); }
+
+  .foot{ margin-top:auto; padding-top:7px; border-top:1px solid var(--rule);
+         font-size:8px; color:var(--soft); display:flex; flex-wrap:wrap; gap:3px 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="head">
+    <p class="eyebrow">Alternance BTS SIO SLAM · Octobre 2026</p>
+    <h1 class="name">Luc Griffon</h1>
+    <p class="role">Développeur back &amp; automatisation · Fondateur DevHub · Menuisier BM</p>
+  </header>
+
+  <div class="body">
+
+    <!-- ─────────── GAUCHE ─────────── -->
+    <aside class="col-left">
+
+      <section class="sec">
+        <p class="sec-t">Contact</p>
+        <a class="kv" href="mailto:griffonluc7@gmail.com"><span class="k">Email</span><span class="v">griffonluc7@gmail.com</span></a>
+        <a class="kv" href="tel:+33601205516"><span class="k">Téléphone</span><span class="v">06 01 20 55 16</span></a>
+        <div class="kv"><span class="k">Localisation</span><span class="v">Gleizé, Auvergne-Rhône-Alpes</span></div>
+        <div class="kv"><span class="k">Âge</span><span class="v">19 ans</span></div>
+        <div class="kv"><span class="k">Disponible</span><span class="v">Octobre 2026</span></div>
+        <div class="kv"><span class="k">Poste actuel</span><span class="v">Menuisier BM — Atelier Michel Liard</span></div>
+      </section>
+
+      <section class="sec">
+        <p class="sec-t">Liens</p>
+        <a class="kv" href="https://gricatan.github.io/cvlucgriffon/"><span class="k">Portfolio</span><span class="v">gricatan.github.io/cvlucgriffon</span></a>
+        <a class="kv" href="https://github.com/gricatan"><span class="k">GitHub</span><span class="v">github.com/gricatan</span></a>
+        <a class="kv" href="https://www.linkedin.com/in/luc-griffon"><span class="k">LinkedIn</span><span class="v">linkedin.com/in/luc-griffon</span></a>
+        <a class="kv" href="https://devhub-community.fr/"><span class="k">Communauté</span><span class="v">devhub-community.fr</span></a>
+      </section>
+
+      <section class="sec">
+        <p class="sec-t">Stack &amp; outils</p>
+        <div class="stack-grp">
+          <p class="lab">Principal</p>
+          <div class="chips"><span class="chip main">Python</span></div>
+        </div>
+        <div class="stack-grp">
+          <p class="lab">Frameworks &amp; libs</p>
+          <div class="chips"><span class="chip">FastAPI</span><span class="chip">Django</span><span class="chip">discord.py</span></div>
+        </div>
+        <div class="stack-grp">
+          <p class="lab">Infra &amp; déploiement</p>
+          <div class="chips"><span class="chip">Git / GitHub</span><span class="chip">Nginx</span><span class="chip">VPS Linux</span><span class="chip">PostgreSQL</span></div>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- ─────────── DROITE ─────────── -->
+    <main class="col-right">
+
+      <section class="sec">
+        <p class="sec-t"><span class="n">01</span> Profil</p>
+        <p class="profil">
+          Autodidacte en développement et menuisier en formation — deux métiers où la complexité me passionne.
+          Positionné en <strong>développement back &amp; automatisation</strong>, avec pour objectif de créer des
+          solutions concrètes pour les <strong>PME du bâtiment</strong>, en m'appuyant sur mon expérience du terrain.
+        </p>
+      </section>
+
+      <section class="sec">
+        <p class="sec-t"><span class="n">02</span> DevHub Community <span style="font-weight:400;color:var(--soft);font-size:8px;letter-spacing:.1em;">— projet phare</span></p>
+        <p class="lead"><strong>devhub-community.fr · ~290 membres</strong> — serveur Discord de développement, fondé et animé avec mon équipe de modération. Événements réguliers (code en live, concours).</p>
+        <div class="ln">
+          <span class="t"><b>Bot Discord DevHub</b> <span class="rl">· discord.py</span> — rôles, événements, image de bienvenue générée par membre</span>
+        </div>
+        <div class="ln">
+          <span class="t"><b>Battle Arena</b> <span class="rl">· FastAPI</span> — serveur de jeu multijoueur temps réel, support de 3 concours</span>
+          <a class="lnk" href="https://github.com/gricatan/char">github.com/gricatan/char</a>
+        </div>
+        <div class="ln">
+          <span class="t"><b>Site vitrine « Artisans Dupont »</b> — template de site artisan, exemple de démarchage</span>
+          <a class="lnk" href="https://vitrine.devhub-community.fr/">vitrine.devhub-community.fr</a>
+        </div>
+        <div class="ln">
+          <span class="t"><b>Site DevHub</b> <span class="rl">· PHP</span> — accueil, articles, showcase des projets membres</span>
+          <a class="lnk" href="https://devhub-community.fr/">devhub-community.fr</a>
+        </div>
+      </section>
+
+      <section class="sec">
+        <p class="sec-t"><span class="n">03</span> Autres projets</p>
+        <div class="ln">
+          <span class="t"><b>Upzy League</b> <span class="rl">· Client · Django · PostgreSQL</span> — site de ligue esport + bot Discord (auth Discord, tournois, tickets, scrims)</span>
+          <a class="lnk" href="https://upzy-league.duckdns.org/">upzy-league.duckdns.org</a>
+        </div>
+        <div class="ln">
+          <span class="t"><b>Révision du droit de l'apprentissage</b> — outil de révision (répétition espacée, ~113 questions) pour le Brevet de Maîtrise</span>
+          <a class="lnk" href="https://maitre-dapprentissage-bm.page.gd/">maitre-dapprentissage-bm.page.gd</a>
+        </div>
+        <div class="ln">
+          <span class="t"><b>Codade</b> <span class="rl">· Next.js · en cours</span> — plateforme de gestion d'équipe pour communautés de dev</span>
+          <a class="lnk" href="https://app.devhub-community.fr/">app.devhub-community.fr</a>
+        </div>
+        <p class="old">Anciens : <b>kodoku</b> (transfert de fichiers, VPS/Nginx) · <b>entretien</b> (transcription audio + conseils IA, Mistral).</p>
+      </section>
+
+      <section class="sec">
+        <p class="sec-t"><span class="n">04</span> Expérience &amp; formation</p>
+        <div class="tl-row">
+          <p class="tl-when">Sept 2025 → en cours</p>
+          <div class="tl-what"><p class="t">Menuisier apprenti — BM Menuiserie</p><p class="w">Atelier Michel Liard · Quincieux &nbsp;—&nbsp; CMA Lyon (2025 → 2027)</p></div>
+        </div>
+        <div class="tl-row">
+          <p class="tl-when">Sept 2024 → août 2025</p>
+          <div class="tl-what"><p class="t">Menuisier apprenti — Bac Pro TMA</p><p class="w">Canet Menuiserie · Misérieux</p></div>
+        </div>
+        <div class="tl-row">
+          <p class="tl-when">2022 → 2025</p>
+          <div class="tl-what"><p class="t">Bac Pro Technicien menuisier agenceur — <span class="mb">Mention Bien</span></p><p class="w">Lycée George Sand</p></div>
+        </div>
+        <div class="tl-row">
+          <p class="tl-when">2022 → 2024</p>
+          <div class="tl-what"><p class="t">CAP Menuisier Fabricant</p><p class="w">Lycée Philibert Vrau</p></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="foot">
+    <a href="mailto:griffonluc7@gmail.com">griffonluc7@gmail.com</a>
+    <a href="tel:+33601205516">06 01 20 55 16</a>
+    <a href="https://github.com/gricatan">github.com/gricatan</a>
+    <a href="https://devhub-community.fr/">devhub-community.fr</a>
+    <a href="https://www.linkedin.com/in/luc-griffon">linkedin.com/in/luc-griffon</a>
+  </footer>
+
+</div>
+</body>
+</html>
